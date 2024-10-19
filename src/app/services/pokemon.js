@@ -1,11 +1,26 @@
 import axios from 'axios';
 
 const API_URL = 'https://pokeapi.co/api/v2/pokemon/';
+const API_SPECIES_URL = 'https://pokeapi.co/api/v2/pokemon-species/';
 
 export const getPokemon = async (pokemonIdOrName) => {
   try {
     const response = await axios.get(`${API_URL}${pokemonIdOrName}`);
-    return response.data;
+    
+    const speciesResponse = await axios.get(response.data.species.url);
+    console.log(speciesResponse.data);
+
+    const descriptionEntry = speciesResponse.data.flavor_text_entries.find(
+      entry => entry.language.name === 'pt-br'
+    );
+    console.log(descriptionEntry);
+
+    const description = descriptionEntry ? descriptionEntry.flavor_text : 'Descrição não disponível';
+
+    return {
+      ...response.data,
+      description,
+    };
   } catch (error) {
     console.error("Erro ao buscar o Pokémon:", error);
     throw error;
