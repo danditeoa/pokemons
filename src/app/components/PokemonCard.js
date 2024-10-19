@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image"; // Importando o componente de imagem otimizado do Next.js
+import Image from "next/image";
 import styles from './pokemonCard.module.css';
 
 export default function PokemonCard({ name, image, stats, description }) {
@@ -16,10 +16,10 @@ export default function PokemonCard({ name, image, stats, description }) {
           className={styles.image}
         />
       </div>
-      <p><strong>HP:</strong> {stats[0].base_stat}</p>
-      <p><strong>Ataque:</strong> {stats[1].base_stat}</p>
-      <p><strong>Defesa:</strong> {stats[2].base_stat}</p>
-      <p><strong>Descrição:</strong> {description}</p> {/* Adicionando a descrição */}
+      <p className={styles.skill}><strong>HP:</strong> {stats[0].base_stat}</p>
+      <p className={styles.skill}><strong>Ataque:</strong> {stats[1].base_stat}</p>
+      <p className={styles.skill}><strong>Defesa:</strong> {stats[2].base_stat}</p>
+      <p className={styles.skill}><strong>Descrição:</strong> {description}</p>
     </div>
   );
 }
