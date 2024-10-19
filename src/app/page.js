@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { battlePokemons } from "./services/pokemon";
-import PokemonCard from "./components/PokemonCard";
+import PokemonCard from "./components/PokemonCard/PokemonCard";
 import styles from './page.module.css';
 import Image from "next/image";
 
