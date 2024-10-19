@@ -4,3 +4,13 @@
   border-radius: 10px;
   width: 80%;
 }
+
+.battleButton {
+  cursor: pointer;
+  width: 190px;
+  height: 60px;
+  color:#3E3026;
+  border-radius: 4px;
+  border: 2px solid #FBB965;
+  background: linear-gradient(93.86deg, #FFCB46   3.95%, #FFDE88 26.05%, #FFE091 40.73%, #FFCB44 61.42%);
+}
