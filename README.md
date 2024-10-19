@@ -1,4 +1,25 @@
-![Logo do Pokémon](logopkm.png)
+# Pokémon Battle
+
+<br />
+<div align="center">
+    <img src="https://raw.githubusercontent.com/danditeoa/pokemons/main/public/logopkm.png" alt="Logo do Pokémon" width="300">
+</div>
+
+# Pokémon App Description
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
