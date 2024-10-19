@@ -1,12 +1,14 @@
 'use client';
-
 import { useState } from "react";
 import { battlePokemons } from "./services/pokemon";
 import PokemonCard from "./components/PokemonCard/PokemonCard";
 import styles from './page.module.css';
 import Image from "next/image";
+import PokemonList from "./components/PokemonList/PokemonList";
 
 export default function Home() {
+  const [showBattle, setShowBattle] = useState(false);
+  const [showList, setShowList] = useState(false);
   const [pokemon1, setPokemon1] = useState(null);
   const [pokemon2, setPokemon2] = useState(null);
   const [winner, setWinner] = useState(null);
@@ -33,56 +35,98 @@ export default function Home() {
 
   return (
     <div className={styles.content} style={{ textAlign: 'center' }}>
-      <div className={styles.gameOption}>
-        <Image
-            src="/logopkm.png" 
-            alt="pokemon logo" 
-            width={273} 
-            height={176} 
-            priority={true}
-            className={styles.logo}
-          />
+      <Image
+        src="/logopkm.png" 
+        alt="pokemon logo" 
+        width={273} 
+        height={176} 
+        priority={true}
+        className={styles.logo}
+      />
 
-        <button 
-          className={styles.battleButton} 
-          onClick={handleBattle} 
-          disabled={loading} 
-        >
-          {loading ? 'Carregando...' : 'Iniciar Nova Batalha'}
-        </button>
-      </div>
-
-      {error && <p className={styles.error}>{error}</p>} {/* Exibbir mensagem de erro */}
-
-      {pokemon1 && pokemon2 && (
-        <div className={styles.cards}>
-          <PokemonCard 
-            name={pokemon1.name} 
-            image={pokemon1.sprites.front_default} 
-            stats={pokemon1.stats}
-            description={pokemon1.description}
-          />
-          <Image
-          src="/vs.png" 
-          alt="versus" 
-          width={150} 
-          height={150} 
-          priority={true}
-          className={styles.image}
-        />
-          <PokemonCard 
-            name={pokemon2.name} 
-            image={pokemon2.sprites.front_default} 
-            stats={pokemon2.stats}
-            description={pokemon2.description}
-          />
+      {!showBattle && !showList && ( // options
+        <div className={styles.gameOption}>
+          <button 
+            className={styles.battleButton}
+            onClick={() => setShowBattle(true)}
+          >
+            Jogar
+          </button>
+          <button 
+            className={styles.battleButton} 
+            onClick={() => setShowList(true)}
+          >
+            Ver Lista de Pokémons
+          </button>
         </div>
       )}
 
-      {winner && (
-        <div className={styles.winnerText}>
-          <h2>Vencedor: {winner === 'Empate' ? 'Empate!' : `${winner} venceu!`}</h2>
-        </div>
+      {showBattle && ( // batttle
+        <>
+          <div className={styles.gameOption}>
+            <button 
+              className={styles.battleButton} 
+              onClick={handleBattle} 
+              disabled={loading} 
+            >
+              {loading ? 'Carregando...' : 'Iniciar Nova Batalha'}
+            </button>
+          </div>
+
+          {error && <p className={styles.error}>{error}</p>} {/* Exibe mensagem de erro */}
+
+          {pokemon1 && pokemon2 && (
+            <div className={styles.cards}>
+              <PokemonCard 
+                name={pokemon1.name} 
+                image={pokemon1.sprites.front_default} 
+                stats={pokemon1.stats}
+                description={pokemon1.description}
+              />
+              <Image
+                src="/vs.png" 
+                alt="versus" 
+                width={150} 
+                height={150} 
+                priority={true}
+                className={styles.image}
+              />
+              <PokemonCard 
+                name={pokemon2.name} 
+                image={pokemon2.sprites.front_default} 
+                stats={pokemon2.stats}
+                description={pokemon2.description}
+              />
+            </div>
+          )}
+
+          {winner && (
+            <div className={styles.winnerText}>
+              <h2>Vencedor: {winner === 'Empate' ? 'Empate!' : `${winner} venceu!`}</h2>
+            </div>
+          )}
+
+          <button 
+            className={styles.battleButton}
+            onClick={() => setShowBattle(false)} 
+          >
+            Voltar
+          </button>
+        </>
+      )}
+
+      {showList && ( // pokemons
+        <>
+          <h1>Lista de Pokémon</h1>
+          <PokemonList />
+
+          <button 
+            className={styles.battleButton}
+            onClick={() => setShowList(false)} 
+          >
+            Voltar
+          </button>
+        </>
       )}
     </div>
   );
