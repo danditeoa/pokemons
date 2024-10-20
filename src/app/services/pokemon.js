@@ -6,14 +6,11 @@ const API_SPECIES_URL = 'https://pokeapi.co/api/v2/pokemon-species/';
 export const getPokemon = async (pokemonIdOrName) => {
   try {
     const response = await axios.get(`${API_URL}${pokemonIdOrName}`);
-    
-    const speciesResponse = await axios.get(response.data.species.url);
-    console.log(speciesResponse.data);
+    const speciesResponse = await axios.get(`${API_SPECIES_URL}${response.data.id}/`);
 
     const descriptionEntry = speciesResponse.data.flavor_text_entries.find(
       entry => entry.language.name === 'pt-br'
     );
-    console.log(descriptionEntry);
 
     const description = descriptionEntry ? descriptionEntry.flavor_text : 'Descrição não disponível';
 
@@ -23,7 +20,7 @@ export const getPokemon = async (pokemonIdOrName) => {
     };
   } catch (error) {
     console.error("Erro ao buscar o Pokémon:", error);
-    throw error;
+    throw error; // Lança o erro para que o componente possa tratá-lo
   }
 };
 
@@ -35,11 +32,8 @@ export const battlePokemons = async () => {
     const p1 = await getPokemon(randomId1);
     const p2 = await getPokemon(randomId2);
 
-    const p1Stats = p1.stats;
-    const p2Stats = p2.stats;
-
-    const p1Power = p1Stats[0].base_stat + p1Stats[1].base_stat + p1Stats[2].base_stat;
-    const p2Power = p2Stats[0].base_stat + p2Stats[1].base_stat + p2Stats[2].base_stat;
+    const p1Power = p1.stats.reduce((acc, stat) => acc + stat.base_stat, 0);
+    const p2Power = p2.stats.reduce((acc, stat) => acc + stat.base_stat, 0);
 
     let winner;
     if (p1Power > p2Power) {
