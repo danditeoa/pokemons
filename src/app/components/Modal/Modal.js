@@ -14,7 +14,7 @@ const Modal = ({ isOpen, onClose, pokemon }) => {
         <p><strong>Ataque:</strong> {pokemon.stats[1]?.base_stat}</p>
         <p><strong>Defesa:</strong> {pokemon.stats[2]?.base_stat}</p>
         <p><strong>Descrição:</strong> {pokemon.description || 'Descrição não disponível'}</p>
-        <button onClick={onClose}>Fechar</button>
+        <button className={styles.battleButton} onClick={onClose}>Fechar</button>
       </div>
     </div>
   );
