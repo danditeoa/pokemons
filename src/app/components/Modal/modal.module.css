@@ -1,4 +1,3 @@
-/* modal.module.css */
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -63,16 +62,4 @@
 
 .battleButton:hover {
   background-color: #FFDE88;
-}
-
-/* Estilizando as estatísticas */
-.stat {
-  display: flex;
-  justify-content: space-between;
-  margin: 12px;
-  padding: 3px;
-  font-size: 13px;
-  color: #1A3A5E;
-  background-color: #FFFFFF77;
-  border-radius: 5px;
 }
