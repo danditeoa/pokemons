@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { getPokemon } from '@/app/services/pokemon';
-import Link from 'next/link';
 import styles from './pokemonList.module.css';
 import Modal from '../Modal/Modal';
 
@@ -42,15 +41,14 @@ const PokemonList = () => {
       {pokemonList.map((pokemon) => (
         <div 
           key={pokemon.id} 
-          className={styles.pokemonCard} 
-          onClick={() => handlePokemonClick(pokemon.name)} // Abre o modal ao clicar
+          className={styles.pokemonItem} 
+          onClick={() => handlePokemonClick(pokemon.name)}
         >
           <h3>{pokemon.name}</h3>
           <img src={pokemon.sprites.front_default} alt={pokemon.name} />
         </div>
       ))}
 
-      {/* Modal para exibir detalhes do Pokémon */}
       <Modal
         isOpen={isModalOpen} 
         onClose={closeModal} 
