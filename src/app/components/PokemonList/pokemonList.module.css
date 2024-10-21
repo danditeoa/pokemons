@@ -5,6 +5,28 @@
     padding-bottom: 15px;
 }
 
+.searchBar {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    margin: 20px 0;
+    border: 1px inset #FBB965;
+    border-radius: 10px;
+    color: #fff;
+    background-color: #5873a6;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  .searchBar::placeholder {
+    color: #fff;
+    opacity: 0.8;
+  }
+  
+  .searchBar:focus {
+    border-color: #FBB965;
+  }
+
 .pokemonItem {
     text-transform: capitalize;
     margin-top: 12px;

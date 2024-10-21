@@ -8,6 +8,7 @@ const PokemonList = () => {
   const [loading, setLoading] = useState(true);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchPokemons = async () => {
@@ -34,26 +35,40 @@ const PokemonList = () => {
     setSelectedPokemon(null);
   };
 
+  const filteredPokemonList = pokemonList.filter(pokemon =>
+    pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   if (loading) return <p>Carregando Pokémon...</p>;
 
   return (
-    <div className={styles.pokemonList}>
-      {pokemonList.map((pokemon) => (
-        <div 
-          key={pokemon.id} 
-          className={styles.pokemonItem} 
-          onClick={() => handlePokemonClick(pokemon.name)}
-        >
-          <h3>{pokemon.name}</h3>
-          <img src={pokemon.sprites.front_default} alt={pokemon.name} />
-        </div>
-      ))}
+    <div>
+        <input
+        type="text"
+        placeholder="Filtrar Pokémon"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className={styles.searchBar}
+        />
+        <div className={styles.pokemonList}>
 
-      <Modal
-        isOpen={isModalOpen} 
-        onClose={closeModal} 
-        pokemon={selectedPokemon} 
-      />
+        {filteredPokemonList.map((pokemon) => (
+            <div 
+            key={pokemon.id} 
+            className={styles.pokemonItem} 
+            onClick={() => handlePokemonClick(pokemon.name)}
+            >
+            <h3>{pokemon.name}</h3>
+            <img src={pokemon.sprites.front_default} alt={pokemon.name} />
+            </div>
+        ))}
+
+        <Modal
+            isOpen={isModalOpen} 
+            onClose={closeModal} 
+            pokemon={selectedPokemon} 
+        />
+        </div>
     </div>
   );
 };
