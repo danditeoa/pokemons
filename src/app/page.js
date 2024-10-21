@@ -1,6 +1,6 @@
 'use client';
-import { useState } from "react";
-import { battlePokemons } from "./services/pokemon";
+import { useState, useEffect } from "react";
+import { getPokemon } from "./services/pokemon";
 import PokemonCard from "./components/PokemonCard/PokemonCard";
 import styles from './page.module.css';
 import Image from "next/image";
@@ -12,26 +12,72 @@ export default function Home() {
   const [pokemon1, setPokemon1] = useState(null);
   const [pokemon2, setPokemon2] = useState(null);
   const [winner, setWinner] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const handleBattle = async () => {
-    setLoading(true);
-    setError(null); // Limpa o erro anterior antes de começar uma nova batalha
+  // barras de busca state
+  const [searchTerm1, setSearchTerm1] = useState('');
+  const [searchTerm2, setSearchTerm2] = useState('');
+  const [showSuggestions1, setShowSuggestions1] = useState(false);
+  const [showSuggestions2, setShowSuggestions2] = useState(false);
+  const [pokemonList, setPokemonList] = useState([]);
 
-    try {
-      const battleResult = await battlePokemons();
-      
-      setPokemon1(battleResult.p1);
-      setPokemon2(battleResult.p2);
-      setWinner(battleResult.winner);
-    } catch (err) {
-      console.error("Erro ao iniciar a batalha:", err);
-      setError("Erro ao buscar os Pokémon. Tente novamente."); // Mensagem de erro
-    } finally {
-      setLoading(false);
+  //lista de Pokémons
+  useEffect(() => {
+    const fetchPokemons = async () => {
+      const promises = [];
+      for (let i = 1; i <= 150; i++) {
+        promises.push(getPokemon(i));
+      }
+      const results = await Promise.all(promises);
+      setPokemonList(results);
+    };
+
+    fetchPokemons();
+  }, []);
+
+  //comparar dois pkms e achar o vencedor
+  const battlePokemons = (pokemon1, pokemon2) => {
+    const totalStats1 = pokemon1.stats.reduce((total, stat) => total + stat.base_stat, 0);
+    const totalStats2 = pokemon2.stats.reduce((total, stat) => total + stat.base_stat, 0);
+
+    if (totalStats1 > totalStats2) {
+      return pokemon1.name;
+    } else if (totalStats1 < totalStats2) {
+      return pokemon2.name;
+    } else {
+      return 'Empate';
     }
   };
+
+  const handlePokemonSelect = (pokemon, setPokemon, setSearchTerm, setShowSuggestions) => {
+    setPokemon(pokemon);     // set selecionado
+    setSearchTerm(pokemon.name);
+    setShowSuggestions(false);
+
+    if (pokemon1 && pokemon2) {
+      const battleResult = battlePokemons(pokemon1, pokemon2);
+      setWinner(battleResult); // seta vencedor
+    }
+  };
+
+  useEffect(() => {
+    if (pokemon1 && pokemon2) {
+      const battleResult = battlePokemons(pokemon1, pokemon2);
+      setWinner(battleResult);
+    }
+  }, [pokemon1, pokemon2]);
+
+  const filteredPokemons1 = searchTerm1
+    ? pokemonList.filter(pokemon =>
+        pokemon.name.toLowerCase().includes(searchTerm1.toLowerCase())
+      )
+    : [];
+
+  const filteredPokemons2 = searchTerm2
+    ? pokemonList.filter(pokemon =>
+        pokemon.name.toLowerCase().includes(searchTerm2.toLowerCase())
+      )
+    : [];
 
   return (
     <div className={styles.content} style={{ textAlign: 'center' }}>
@@ -61,19 +107,61 @@ export default function Home() {
         </div>
       )}
 
-      {showBattle && ( // batttle
+      {showBattle && ( // battle
         <>
-          <div className={styles.gameOption}>
-            <button 
-              className={styles.battleButton} 
-              onClick={handleBattle} 
-              disabled={loading} 
-            >
-              {loading ? 'Carregando...' : 'Iniciar Nova Batalha'}
-            </button>
+          <div className={styles.searchCards}>
+            <div className={styles.searchSection}>
+              <input
+                type="text"
+                placeholder="Buscar Pokémon 1..."
+                value={searchTerm1}
+                onChange={(e) => {
+                  setSearchTerm1(e.target.value);
+                  setShowSuggestions1(true);
+                }}
+                className={styles.searchBar}
+              />
+              {searchTerm1 && showSuggestions1 && filteredPokemons1.length > 0 && (
+                <ul className={styles.suggestions}>
+                  {filteredPokemons1.map((pokemon) => (
+                    <li 
+                      key={pokemon.id} 
+                      onClick={() => handlePokemonSelect(pokemon, setPokemon1, setSearchTerm1, setShowSuggestions1)}
+                    >
+                      {pokemon.name}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            <div className={styles.searchSection}>
+              <input
+                type="text"
+                placeholder="Buscar Pokémon 2..."
+                value={searchTerm2}
+                onChange={(e) => {
+                  setSearchTerm2(e.target.value);
+                  setShowSuggestions2(true);
+                }}
+                className={styles.searchBar}
+              />
+              {searchTerm2 && showSuggestions2 && filteredPokemons2.length > 0 && (
+                <ul className={styles.suggestions}>
+                  {filteredPokemons2.map((pokemon) => (
+                    <li 
+                      key={pokemon.id} 
+                      onClick={() => handlePokemonSelect(pokemon, setPokemon2, setSearchTerm2, setShowSuggestions2)}
+                    >
+                      {pokemon.name}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </div>
 
-          {error && <p className={styles.error}>{error}</p>} {/* Exibe mensagem de erro */}
+          {error && <p className={styles.error}>{error}</p>} {/* mensagem de erro */}
 
           {pokemon1 && pokemon2 && (
             <div className={styles.cards}>
@@ -100,7 +188,8 @@ export default function Home() {
             </div>
           )}
 
-          {winner && (
+          {/* mostrar o vencedor após a seleção dos dois pkmns */}
+          {pokemon1 && pokemon2 && winner && (
             <div className={styles.winnerText}>
               <h2>Vencedor: {winner === 'Empate' ? 'Empate!' : `${winner} venceu!`}</h2>
             </div>

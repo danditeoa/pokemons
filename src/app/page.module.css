@@ -30,6 +30,47 @@
   background: linear-gradient(93.86deg, #FFCB46   3.95%, #FFDE88 26.05%, #FFE091 40.73%, #FFCB44 61.42%);
 }
 
+.searchCards {
+  display: flex;
+  justify-content: space-around;
+}
+
+.searchSection {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.searchBar {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.suggestions {
+  list-style-type: none;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  max-height: 150px;
+  overflow-y: auto;
+  position: absolute;
+  width: 100%;
+  z-index: 10;
+}
+
+.suggestions li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.suggestions li:hover {
+  background-color: #f0f0f0;
+}
+
+
 .cards {
   display: flex;
   justify-content: space-around;
