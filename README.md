@@ -15,7 +15,7 @@ You can access by clicking [here](https://pokemons-rho-one.vercel.app/)
 
 - Pokémon Exploration: details about various Pokémon, including image, name, abilities, and descriptions.
 
-- Pokémon Card: Battle head-to-head between two random Pokémon and determine which is stronger based on their stats.
+- Pokémon Card: you can manually search for and select the Pokémon for battle using a search bar. After selecting a Pokémon, the dropdown automatically closes, and the name of the selected Pokémon is displayed in the search bar, allowing you to know which Pokémon is currently selected.
 
 ## Technologies Used
 
