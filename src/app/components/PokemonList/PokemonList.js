@@ -39,13 +39,13 @@ const PokemonList = () => {
     pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  if (loading) return <p>Carregando Pokémon...</p>;
+  if (loading) return <p>Loading Pokemon...</p>;
 
   return (
     <div>
         <input
         type="text"
-        placeholder="Filtrar Pokémon"
+        placeholder="Filter Pokemon"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className={styles.searchBar}

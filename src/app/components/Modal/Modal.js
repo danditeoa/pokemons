@@ -17,10 +17,10 @@ const Modal = ({ isOpen, onClose, pokemon }) => {
           priority={true}
         />
         <p className={styles.stat}><strong>HP:</strong> {pokemon.stats[0]?.base_stat}</p>
-        <p className={styles.stat}><strong>Ataque:</strong> {pokemon.stats[1]?.base_stat}</p>
-        <p className={styles.stat}><strong>Defesa:</strong> {pokemon.stats[2]?.base_stat}</p>
-        {/* <p className={styles.description}><strong>Descrição:</strong> {pokemon.description || 'Descrição não disponível'}</p> */}
-        <button className={styles.battleButton} onClick={onClose}>Fechar</button>
+        <p className={styles.stat}><strong>Attack:</strong> {pokemon.stats[1]?.base_stat}</p>
+        <p className={styles.stat}><strong>Defense:</strong> {pokemon.stats[2]?.base_stat}</p>
+        {/* <p className={styles.description}><strong>Description:</strong> {pokemon.description || 'Description not available'}</p> */}
+        <button className={styles.battleButton} onClick={onClose}>Close</button>
       </div>
     </div>
   );

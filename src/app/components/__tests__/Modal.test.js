@@ -28,10 +28,10 @@ describe('Modal Component', () => {
     expect(screen.getByText('Pikachu')).toBeInTheDocument();
 
     expect(screen.getByText(/HP:/)).toBeInTheDocument();
-    expect(screen.getByText(/Ataque:/)).toBeInTheDocument();
-    expect(screen.getByText(/Defesa:/)).toBeInTheDocument();
+    expect(screen.getByText(/Attack:/)).toBeInTheDocument();
+    expect(screen.getByText(/Defense:/)).toBeInTheDocument();
     
-    // checaimagem do Pokémon foi renderizada
+    // check if Pokemon image was rendered
     const image = screen.getByAltText('Pikachu');
     expect(image).toBeInTheDocument();
 
@@ -42,7 +42,7 @@ describe('Modal Component', () => {
     const handleClose = jest.fn();
     render(<Modal isOpen={true} onClose={handleClose} pokemon={mockPokemon} />);
     
-    fireEvent.click(screen.getByText('Fechar'));
+    fireEvent.click(screen.getByText('Close'));
     
     expect(handleClose).toHaveBeenCalledTimes(1);
   });

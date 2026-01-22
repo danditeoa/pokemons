@@ -14,14 +14,14 @@ export default function Home() {
   const [winner, setWinner] = useState(null);
   const [error, setError] = useState(null);
 
-  // barras de busca state
+  // search bars state
   const [searchTerm1, setSearchTerm1] = useState('');
   const [searchTerm2, setSearchTerm2] = useState('');
   const [showSuggestions1, setShowSuggestions1] = useState(false);
   const [showSuggestions2, setShowSuggestions2] = useState(false);
   const [pokemonList, setPokemonList] = useState([]);
 
-  //lista de Pokémons
+  // Pokemon list
   useEffect(() => {
     const fetchPokemons = async () => {
       const promises = [];
@@ -35,7 +35,7 @@ export default function Home() {
     fetchPokemons();
   }, []);
 
-  //comparar dois pkms e achar o vencedor
+  // compare two pokemons and find the winner
   const battlePokemons = (pokemon1, pokemon2) => {
     const totalStats1 = pokemon1.stats.reduce((total, stat) => total + stat.base_stat, 0);
     const totalStats2 = pokemon2.stats.reduce((total, stat) => total + stat.base_stat, 0);
@@ -45,18 +45,18 @@ export default function Home() {
     } else if (totalStats1 < totalStats2) {
       return pokemon2.name;
     } else {
-      return 'Empate';
+      return 'Tie';
     }
   };
 
   const handlePokemonSelect = (pokemon, setPokemon, setSearchTerm, setShowSuggestions) => {
-    setPokemon(pokemon);     // set selecionado
+    setPokemon(pokemon);     // set selected
     setSearchTerm(pokemon.name);
     setShowSuggestions(false);
 
     if (pokemon1 && pokemon2) {
       const battleResult = battlePokemons(pokemon1, pokemon2);
-      setWinner(battleResult); // seta vencedor
+      setWinner(battleResult); // set winner
     }
   };
 
@@ -96,13 +96,13 @@ export default function Home() {
             className={styles.battleButton}
             onClick={() => setShowBattle(true)}
           >
-            Jogar
+            Play
           </button>
           <button 
             className={styles.battleButton} 
             onClick={() => setShowList(true)}
           >
-            Ver Lista de Pokémons
+            View Pokemon List
           </button>
         </div>
       )}
@@ -113,7 +113,7 @@ export default function Home() {
             <div className={styles.searchSection}>
               <input
                 type="text"
-                placeholder="Buscar Pokémon 1..."
+                placeholder="Search Pokemon 1..."
                 value={searchTerm1}
                 onChange={(e) => {
                   setSearchTerm1(e.target.value);
@@ -138,7 +138,7 @@ export default function Home() {
             <div className={styles.searchSection}>
               <input
                 type="text"
-                placeholder="Buscar Pokémon 2..."
+                placeholder="Search Pokemon 2..."
                 value={searchTerm2}
                 onChange={(e) => {
                   setSearchTerm2(e.target.value);
@@ -161,7 +161,7 @@ export default function Home() {
             </div>
           </div>
 
-          {error && <p className={styles.error}>{error}</p>} {/* mensagem de erro */}
+          {error && <p className={styles.error}>{error}</p>} {/* error message */}
 
           {pokemon1 && pokemon2 && (
             <div className={styles.cards}>
@@ -188,10 +188,10 @@ export default function Home() {
             </div>
           )}
 
-          {/* mostrar o vencedor após a seleção dos dois pkmns */}
+          {/* show the winner after selecting both pokemons */}
           {pokemon1 && pokemon2 && winner && (
             <div className={styles.winnerText}>
-              <h2>Vencedor: {winner === 'Empate' ? 'Empate!' : `${winner} venceu!`}</h2>
+              <h2>Winner: {winner === 'Tie' ? 'Tie!' : `${winner} wins!`}</h2>
             </div>
           )}
 
@@ -199,21 +199,21 @@ export default function Home() {
             className={styles.battleButton}
             onClick={() => setShowBattle(false)} 
           >
-            Voltar
+            Back
           </button>
         </>
       )}
 
       {showList && ( // pokemons
         <>
-          <h1>Lista de Pokémon</h1>
+          <h1>Pokemon List</h1>
           <PokemonList />
 
           <button 
             className={styles.battleButton}
             onClick={() => setShowList(false)} 
           >
-            Voltar
+            Back
           </button>
         </>
       )}

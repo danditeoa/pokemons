@@ -9,18 +9,18 @@ export const getPokemon = async (pokemonIdOrName) => {
     const speciesResponse = await axios.get(`${API_SPECIES_URL}${response.data.id}/`);
 
     const descriptionEntry = speciesResponse.data.flavor_text_entries.find(
-      entry => entry.language.name === 'pt-br'
+      entry => entry.language.name === 'en'
     );
 
-    const description = descriptionEntry ? descriptionEntry.flavor_text : 'Descrição não disponível';
+    const description = descriptionEntry ? descriptionEntry.flavor_text : 'Description not available';
 
     return {
       ...response.data,
       description,
     };
   } catch (error) {
-    console.error("Erro ao buscar o Pokémon:", error);
-    throw error; // Lança o erro para que o componente possa tratá-lo
+    console.error("Error fetching Pokemon:", error);
+    throw error; // Throws the error so the component can handle it
   }
 };
 
@@ -41,12 +41,12 @@ export const battlePokemons = async () => {
     } else if (p2Power > p1Power) {
       winner = p2.name;
     } else {
-      winner = 'Empate';
+      winner = 'Tie';
     }
 
     return { p1, p2, winner };
   } catch (error) {
-    console.error("Erro na batalha de Pokémon:", error);
+    console.error("Error in Pokemon battle:", error);
     throw error;
   }
 };
